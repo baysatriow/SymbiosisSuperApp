@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\SroiController;
+use App\Http\Controllers\EsgReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +88,15 @@ Route::middleware('auth')->group(function () {
 
     // SROI Calculator
     Route::get('/sroi-calculator', [SroiController::class, 'index'])->name('user.sroi.index');
+
+    // ESG Report Generator
+    Route::get('/esg-reports', [EsgReportController::class, 'index'])->name('user.esg.index');
+    Route::get('/esg-reports/create', [EsgReportController::class, 'create'])->name('user.esg.create');
+    Route::post('/esg-reports', [EsgReportController::class, 'store'])->name('user.esg.store');
+    Route::get('/esg-reports/{id}', [EsgReportController::class, 'show'])->name('user.esg.show');
+    Route::get('/esg-reports/{id}/progress', [EsgReportController::class, 'progress'])->name('user.esg.progress');
+    Route::get('/esg-reports/{id}/download', [EsgReportController::class, 'download'])->name('user.esg.download');
+    Route::delete('/esg-reports/{id}', [EsgReportController::class, 'destroy'])->name('user.esg.destroy');
 
     // GEOPORTAL ROUTES (Single Page Logic)
     Route::get('/geoportal', [\App\Http\Controllers\GeoportalController::class, 'index'])->name('geoportal.index');
