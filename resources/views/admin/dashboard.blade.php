@@ -6,7 +6,7 @@
         <!-- HEADER SECTION -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
             <div>
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Dashboard Admin</h2>
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Dashboard AdminSSS</h2>
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                     Pantau aktivitas sistem, verifikasi pengguna, dan validasi dokumen lingkungan.
                 </p>

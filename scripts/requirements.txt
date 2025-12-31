@@ -1,0 +1,9 @@
+mysql-connector-python
+pandas
+feedparser
+beautifulsoup4
+textblob
+ntscraper
+google-generativeai
+instaloader
+facebook-scraper

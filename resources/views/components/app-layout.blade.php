@@ -147,6 +147,14 @@
                             <span class="flex-1 ms-3 whitespace-nowrap">SROI Calculator</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('heatmap.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('heatmap.*') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
+                            <svg class="flex-shrink-0 w-5 h-5 transition duration-75 {{ request()->routeIs('heatmap.*') ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Isu Nasional (Heatmap)</span>
+                        </a>
+                    </li>
                     <div class="pt-4 pb-2"><span class="px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Pengaturan</span></div>
                     <li>
                         <a href="{{ route('user.profile') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('user.profile') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
@@ -193,6 +201,14 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
                             </svg>
                             <span class="flex-1 ms-3 whitespace-nowrap">Broadcast Pesan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('heatmap.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('heatmap.*') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
+                            <svg class="flex-shrink-0 w-5 h-5 transition duration-75 {{ request()->routeIs('heatmap.*') ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Isu Nasional (Heatmap)</span>
                         </a>
                     </li>
 

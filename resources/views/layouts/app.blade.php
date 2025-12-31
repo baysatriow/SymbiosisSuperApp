@@ -161,6 +161,15 @@
                             <span class="flex-1 ms-3 whitespace-nowrap">SROI Calculator</span>
                         </a>
                     </li>
+                    <li>
+                        <!-- Menu Utama: Heatmap (Isu Nasional) -->
+                        <a href="{{ route('heatmap.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Isu Nasional (Heatmap)</span>
+                        </a>
+                    </li>
 
                     <li class="border-t border-gray-200 dark:border-gray-700 pt-2">
                         <!-- Menu Profil User -->
@@ -210,6 +219,15 @@
                                 <path d="M17 4H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1ZM5 7v6a1 1 0 0 1-2 0V7a1 1 0 0 1 2 0Zm10 0v6a1 1 0 0 1-2 0V7a1 1 0 0 1 2 0Zm-4 0v6a1 1 0 0 1-2 0V7a1 1 0 0 1 2 0Z"/>
                             </svg>
                             <span class="flex-1 ms-3 whitespace-nowrap">Broadcast Pesan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <!-- Menu Admin: Heatmap (Isu Nasional) -->
+                        <a href="{{ route('heatmap.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Isu Nasional (Heatmap)</span>
                         </a>
                     </li>
                 @endif

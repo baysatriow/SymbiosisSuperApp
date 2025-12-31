@@ -94,6 +94,12 @@ Route::middleware('auth')->group(function () {
     Route::put('/geoportal/{id}', [\App\Http\Controllers\GeoportalController::class, 'update'])->name('geoportal.update');
     Route::delete('/geoportal/{id}', [\App\Http\Controllers\GeoportalController::class, 'destroy'])->name('geoportal.destroy');
 
+    // --- HEATMAP (ISU NASIONAL) ---
+    Route::get('/heatmap', [\App\Http\Controllers\HeatmapController::class, 'index'])->name('heatmap.index');
+    Route::post('/heatmap/demo', [\App\Http\Controllers\HeatmapController::class, 'generateDemo'])->name('heatmap.demo');
+    Route::post('/heatmap/live', [\App\Http\Controllers\HeatmapController::class, 'fetchLive'])->name('heatmap.live');
+    Route::post('/heatmap/clear', [\App\Http\Controllers\HeatmapController::class, 'clearData'])->name('heatmap.clear');
+
     // GROUP ADMIN (Middleware cek role sudah ada di Controller/Logic Dashboard, tapi bisa dipertegas di sini)
     Route::prefix('admin')->name('admin.')->group(function () {
         // User Actions
@@ -136,6 +142,8 @@ Route::middleware('auth')->group(function () {
         // Template Routes
         Route::post('/broadcast/templates', [\App\Http\Controllers\BroadcastController::class, 'storeTemplate'])->name('broadcast.templates.store');
         Route::delete('/broadcast/templates/{id}', [\App\Http\Controllers\BroadcastController::class, 'deleteTemplate'])->name('broadcast.templates.delete');
+
+
 
     });
 });
