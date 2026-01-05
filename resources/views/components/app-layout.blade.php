@@ -92,9 +92,16 @@
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
             <div class="flex items-center justify-between">
                 <div class="flex items-center justify-start rtl:justify-end">
+                    <!-- Logo (Now on Left) -->
+                    <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}"
+                        class="flex shrink-0 items-center gap-3">
+                        <img src="{{ asset('images/logoSymbiosis.svg') }}" alt="Symbiosis" class="h-10 w-auto transition-transform hover:scale-105">
+                    </a>
+
+                    <!-- Sidebar Toggle (Now on Right of Logo) -->
                     <button id="sidebar-toggle-btn" type="button"
-                        class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-                        <span class="sr-only">Open sidebar</span>
+                        class="inline-flex items-center p-2 ms-3 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 transition-colors">
+                        <span class="sr-only">Toggle sidebar</span>
                         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path clip-rule="evenodd" fill-rule="evenodd"
@@ -102,10 +109,6 @@
                             </path>
                         </svg>
                     </button>
-                    <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}"
-                        class="flex ms-2 md:ms-4 items-center group">
-                        <img src="{{ asset('images/logoSymbiosis.svg') }}" alt="Symbiosis" class="h-9 w-auto transition-transform group-hover:scale-105">
-                    </a>
                 </div>
                 <div class="flex items-center">
                     <div class="flex items-center ms-3">
@@ -155,7 +158,7 @@
 
     <!-- SIDEBAR -->
     <aside id="logo-sidebar"
-        class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 shadow-lg"
+        class="fixed top-0 left-0 z-40 w-64 h-screen pt-24 transition-transform bg-white/95 backdrop-blur-sm sm:translate-x-0 dark:bg-gray-800/95 shadow-xl border-r-0"
         aria-label="Sidebar">
         <div class="h-full px-3 pb-4 overflow-y-auto no-scrollbar bg-white dark:bg-gray-800">
             <ul class="space-y-2 font-medium">
