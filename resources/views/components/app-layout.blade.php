@@ -166,13 +166,13 @@
                 <!-- DASHBOARD (User & Admin) -->
                 <li>
                     <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}"
-                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ (request()->routeIs('user.dashboard') || request()->routeIs('admin.dashboard')) ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
+                        class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ (request()->routeIs('user.dashboard') || request()->routeIs('admin.dashboard')) ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
                         <svg class="w-5 h-5 transition duration-75 {{ (request()->routeIs('user.dashboard') || request()->routeIs('admin.dashboard')) ? 'text-primary-600' : 'text-gray-500 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white' }}"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                             viewBox="0 0 20 20">
                             <path d="M2 2h6v6H2V2zm8 0h6v6h-6V2zm-8 8h6v6H2v-6zm8 0h6v6h-6v-6z" />
                         </svg>
-                        <span class="ms-3">Dashboard</span>
+                        <span class="ms-3 font-medium">Dashboard</span>
                     </a>
                 </li>
 
