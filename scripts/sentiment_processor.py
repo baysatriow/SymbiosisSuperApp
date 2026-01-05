@@ -243,8 +243,6 @@ def main():
             all_data.extend(tw)
             
             # 3. Simulate others for "Live" feeling without blocking
-            # Real scraping for generic IG/FB is too unstable for a reliable demo script 
-            # so we start with simulation for them to fill the chart.
             for plat in ['Instagram', 'Facebook', 'Tiktok']:
                 sim = scrape_simulated(plat, topic)
                 for d in sim: d['topic'] = topic

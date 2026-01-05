@@ -61,9 +61,8 @@
                     </button>
 
                     <!-- Logo -->
-                    <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}" class="flex ms-2 md:ms-4">
-                        <div class="w-8 h-8 mr-2 bg-primary-600 rounded-lg flex items-center justify-center text-white font-bold">S</div>
-                        <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white text-primary-700">Symbiosis</span>
+                    <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}" class="flex ms-2 md:ms-4 items-center group">
+                        <img src="{{ asset('images/logoSymbiosis.svg') }}" alt="Symbiosis" class="h-8 w-auto transition-transform group-hover:scale-105">
                     </a>
                 </div>
 
@@ -91,7 +90,7 @@
                             </div>
                             <ul class="py-1" role="none">
                                 <li>
-                                    <a href="{{ route('user.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Dashboard</a>
+                                    <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Dashboard</a>
                                 </li>
                                 <!-- Hanya tampilkan Profil jika bukan Admin -->
                                 @if(Auth::user()->role !== 'admin')
@@ -231,6 +230,23 @@
                         </a>
                     </li>
                 @endif
+
+                <!-- LOGOUT BUTTON -->
+                <li class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit"
+                            class="flex w-full items-center p-2 text-red-600 rounded-lg hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 group transition-colors">
+                            <svg class="w-5 h-5 transition duration-75" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            <span class="ms-3 font-medium">Logout</span>
+                        </button>
+                    </form>
+                </li>
 
             </ul>
         </div>
