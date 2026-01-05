@@ -115,13 +115,13 @@
     <!-- END NAVBAR FIXED -->
 
     <!-- SIDEBAR (Dibuat Responsif berdasarkan Role) -->
-    <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-24 transition-transform -translate-x-full bg-white/95 backdrop-blur-sm border-r-0 sm:translate-x-0 dark:bg-gray-800/95 shadow-xl" aria-label="Sidebar">
-        <div class="h-full px-3 pb-4 overflow-y-auto no-scrollbar bg-white dark:bg-gray-800">
+    <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-24 transition-transform -translate-x-full bg-gray-50 border-r border-gray-100 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700 shadow-xl" aria-label="Sidebar">
+        <div class="h-full px-3 pb-4 overflow-y-auto no-scrollbar bg-gray-50 dark:bg-gray-800">
             <ul class="space-y-2 font-medium">
 
                 <!-- START MENU DASHBOARD UTAMA -->
                 <li>
-                    <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ (request()->routeIs('user.dashboard') || request()->routeIs('admin.dashboard')) ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
+                    <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-white dark:hover:bg-gray-700 group {{ (request()->routeIs('user.dashboard') || request()->routeIs('admin.dashboard')) ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
                         <svg class="w-5 h-5 transition duration-75 {{ (request()->routeIs('user.dashboard') || request()->routeIs('admin.dashboard')) ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
                            <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.8 11.834A1 1 0 0 0 17 14.85v-3.876a1 1 0 0 0-.025-.975Z"/>
                            <path d="M10 14H6.025a1 1 0 0 0-.998.998 8.5 8.5 0 1 0 9.8-11.834A1 1 0 0 0 14.85 10v3.876a1 1 0 0 0 .975.025Z"/>
@@ -135,7 +135,7 @@
                 @if(Auth::user()->role !== 'admin')
                     <li>
                         <!-- Menu Utama: Documents -->
-                        <a href="{{ route('user.documents') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('user.documents') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
+                        <a href="{{ route('user.documents') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-white dark:hover:bg-gray-700 group {{ request()->routeIs('user.documents') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
                             <svg class="flex-shrink-0 w-5 h-5 transition duration-75 {{ request()->routeIs('user.documents') ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                                 <path d="M18 11.196v6.864a.999.999 0 0 1-1.026 1L1 18.06A.999.999 0 0 1 0 17.06V2.94A.997.997 0 0 1 1 2h7.026a1 1 0 0 1 .954.685l.135.342a1 1 0 0 0 .937.644h4.453a1 1 0 0 1 .937.644l.135.342A1 1 0 0 0 18 6.804Zm-10 2.27a1 1 0 0 0-1 1v2a1 1 0 1 0 2 0v-2a1 1 0 0 0-1-1Zm4 0a1 1 0 0 0-1 1v2a1 1 0 1 0 2 0v-2a1 1 0 0 0-1-1Zm4 0a1 1 0 0 0-1 1v2a1 1 0 1 0 2 0v-2a1 1 0 0 0-1-1Z"/>
                             </svg>
@@ -144,7 +144,7 @@
                     </li>
                     <li>
                         <!-- Menu Utama: Chatbot -->
-                        <a href="#" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <a href="#" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-white dark:hover:bg-gray-700 group">
                             <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M17.3 4.8A8.8 8.8 0 0 0 10 0C4.5 0 0 4.5 0 10a5.2 5.2 0 0 0 3.3 4.8c-.1.3-.3.6-.3.9v3.3l3.2-1.7a8.5 8.5 0 0 0 3.8 1.1c5.5 0 10-4.5 10-10a5.2 5.2 0 0 0-2.7-4.6ZM9 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm2.5-4a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
                             </svg>
@@ -153,7 +153,7 @@
                     </li>
                     <li>
                         <!-- Menu Utama: SROI Calculator -->
-                        <a href="{{ route('user.sroi.index') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('user.sroi.*') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
+                        <a href="{{ route('user.sroi.index') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-white dark:hover:bg-gray-700 group {{ request()->routeIs('user.sroi.*') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
                             <svg class="flex-shrink-0 w-5 h-5 transition duration-75 {{ request()->routeIs('user.sroi.*') ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M11.9 14.7C10.6 15.6 9 16 7.4 16c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8c0 1.6-.4 3.2-1.3 4.5L19.4 18l-1.4 1.4-6.1-4.7ZM7.4 4c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4Z"/>
                                 <path d="M13 5H7a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1ZM8 9a1 1 0 0 1-1-1V7a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1Zm4 0a1 1 0 0 1-1-1V7a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1Z"/>
@@ -163,7 +163,7 @@
                     </li>
                     <li>
                         <!-- Menu Utama: Heatmap (Isu Nasional) -->
-                        <a href="{{ route('heatmap.index') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('heatmap.*') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
+                        <a href="{{ route('heatmap.index') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-white dark:hover:bg-gray-700 group {{ request()->routeIs('heatmap.*') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
                             <svg class="flex-shrink-0 w-5 h-5 transition duration-75 {{ request()->routeIs('heatmap.*') ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                             </svg>
@@ -173,7 +173,7 @@
 
                     <li class="border-t border-gray-200 dark:border-gray-700 pt-2">
                         <!-- Menu Profil User -->
-                        <a href="{{ route('user.profile') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('user.profile') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
+                        <a href="{{ route('user.profile') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-white dark:hover:bg-gray-700 group {{ request()->routeIs('user.profile') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
                             <svg class="flex-shrink-0 w-5 h-5 transition duration-75 {{ request()->routeIs('user.profile') ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 0a10 10 0 1 0 10 10A10.01 10.01 0 0 0 10 0Zm0 18a8 8 0 1 1 8-8A8.01 8.01 0 0 1 10 18Zm-2.5-7.5A1.5 1.5 0 0 1 8 9h4a1.5 1.5 0 0 1 0 3H8a1.5 1.5 0 0 1 0-3Z"/>
                             </svg>
@@ -182,7 +182,7 @@
                     </li>
                     <li>
                         <!-- Menu Profil Perusahaan -->
-                        <a href="{{ route('user.company') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('user.company') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
+                        <a href="{{ route('user.company') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-white dark:hover:bg-gray-700 group {{ request()->routeIs('user.company') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
                             <svg class="flex-shrink-0 w-5 h-5 transition duration-75 {{ request()->routeIs('user.company') ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 0a10 10 0 1 0 10 10A10.01 10.01 0 0 0 10 0Zm0 18a8 8 0 1 1 8-8A8.01 8.01 0 0 1 10 18ZM5 9h10a1 1 0 0 0 0-2H5a1 1 0 0 0 0 2Zm0 4h10a1 1 0 0 0 0-2H5a1 1 0 0 0 0 2Z"/>
                             </svg>
@@ -195,7 +195,7 @@
                 @if(Auth::user()->role === 'admin')
                     <li>
                         <!-- Menu Admin: Manajemen Pengguna -->
-                        <a href="{{ route('admin.users.index') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('admin.users.*') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
+                        <a href="{{ route('admin.users.index') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-white dark:hover:bg-gray-700 group {{ request()->routeIs('admin.users.*') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
                             <svg class="flex-shrink-0 w-5 h-5 transition duration-75 {{ request()->routeIs('admin.users.*') ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 0a10 10 0 1 0 10 10A10.01 10.01 0 0 0 10 0Zm0 18a8 8 0 1 1 8-8A8.01 8.01 0 0 1 10 18Zm0-11a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm0-2a5 5 0 1 1 0 10 5 5 0 0 1 0-10Z"/>
                             </svg>
@@ -204,7 +204,7 @@
                     </li>
                     <li>
                         <!-- Menu Admin: Verifikasi Dokumen -->
-                        <a href="#" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <a href="#" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-white dark:hover:bg-gray-700 group">
                             <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M17 5h-2V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2ZM9 2h2v3H9V2Zm4 15H7v-2h6v2Zm2-4H5V7h10v6Z"/>
                             </svg>
@@ -214,7 +214,7 @@
                     </li>
                     <li>
                         <!-- Menu Admin: Broadcast Pesan -->
-                        <a href="{{ route('admin.broadcast.index') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('admin.broadcast.*') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
+                        <a href="{{ route('admin.broadcast.index') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-white dark:hover:bg-gray-700 group {{ request()->routeIs('admin.broadcast.*') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
                             <svg class="flex-shrink-0 w-5 h-5 transition duration-75 {{ request()->routeIs('admin.broadcast.*') ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M17 4H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1ZM5 7v6a1 1 0 0 1-2 0V7a1 1 0 0 1 2 0Zm10 0v6a1 1 0 0 1-2 0V7a1 1 0 0 1 2 0Zm-4 0v6a1 1 0 0 1-2 0V7a1 1 0 0 1 2 0Z"/>
                             </svg>
@@ -223,7 +223,7 @@
                     </li>
                     <li>
                         <!-- Menu Admin: Heatmap (Isu Nasional) -->
-                        <a href="{{ route('heatmap.index') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('heatmap.*') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
+                        <a href="{{ route('heatmap.index') }}" class="flex items-center px-3 py-2.5 text-gray-900 rounded-xl dark:text-white hover:bg-white dark:hover:bg-gray-700 group {{ request()->routeIs('heatmap.*') ? 'bg-primary-50 text-primary-600 dark:bg-gray-700 dark:text-primary-400' : '' }}">
                             <svg class="flex-shrink-0 w-5 h-5 transition duration-75 {{ request()->routeIs('heatmap.*') ? 'text-primary-600' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white' }}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                             </svg>
@@ -255,7 +255,7 @@
     <!-- END SIDEBAR -->
 
     <!-- MAIN CONTENT AREA -->
-    <div class="p-4 sm:ml-64 mt-14">
+    <div class="p-4 sm:ml-64 mt-14 bg-gray-50 dark:bg-gray-900 min-h-screen">
         <!-- Slot untuk konten spesifik halaman (Dashboard User/Admin) -->
         {{ $slot }}
     </div>

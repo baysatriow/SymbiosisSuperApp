@@ -1,142 +1,119 @@
 <x-app-layout>
     <div class="max-w-5xl mx-auto py-6">
 
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white">Pengaturan Profil</h2>
-            <p class="mt-2 text-gray-500 dark:text-gray-400">Kelola informasi pribadi, jabatan, dan keamanan akun Anda.</p>
-        </div>
+    <x-page-header 
+        title="Pengaturan Profil" 
+        subtitle="Kelola informasi pribadi, identitas, dan keamanan akun Anda." 
+    />
 
-        <!-- Form Container -->
-        <form action="{{ route('user.profile.update') }}" method="POST" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            @csrf
-            @method('PUT')
+    <form action="{{ route('user.profile.update') }}" method="POST" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        @csrf
+        @method('PUT')
 
-            <!-- KOLOM KIRI: Data Diri & Keamanan -->
-            <div class="lg:col-span-1 space-y-6">
-
-                <!-- Card Foto & Info Dasar -->
-                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-6 text-center">
-                    <div class="w-24 h-24 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-4">
-                        {{ substr($user->full_name, 0, 1) }}
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">{{ $user->username }}</h3>
-                    <p class="text-sm text-gray-500">{{ $user->email }}</p>
-                    <div class="mt-4">
-                        <label class="block text-left mb-1 text-xs font-medium text-gray-500 uppercase">Nama Lengkap</label>
-                        <input type="text" name="full_name" value="{{ old('full_name', $user->full_name) }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white font-semibold text-center" required>
+        <!-- SIDEBAR INFO -->
+        <div class="space-y-6">
+            <x-content-card class="text-center">
+                <div class="w-20 h-20 bg-primary-100 text-primary-600 rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-sm border border-primary-200">
+                    {{ substr($user->full_name, 0, 1) }}
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 leading-tight">{{ $user->full_name }}</h3>
+                <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mt-1">{{ '@' . $user->username }}</p>
+                <div class="mt-6 pt-6 border-t border-gray-50 flex flex-col gap-3">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-gray-400 font-medium">Email</span>
+                        <span class="text-gray-900 font-bold">{{ $user->email }}</span>
                     </div>
                 </div>
+            </x-content-card>
 
-                <!-- Card Kontak (HP) -->
-                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-6">
-                    <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                        Kontak WhatsApp
-                    </h4>
-                    <div class="relative">
-                        <input type="text" id="current_phone" value="{{ $user->phone_number }}" class="bg-gray-100 border border-gray-300 text-gray-500 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400 cursor-not-allowed" readonly>
-                        <button type="button" data-modal-target="changePhoneModal" data-modal-toggle="changePhoneModal" class="absolute end-2 top-1.5 text-xs bg-primary-600 text-white px-3 py-1 rounded hover:bg-primary-700 transition">
-                            Ubah
-                        </button>
+            <x-content-card>
+                <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Kontak & Keamanan</h4>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block mb-1.5 text-[10px] font-bold text-gray-400 uppercase">Nomor WhatsApp</label>
+                        <div class="relative">
+                            <input type="text" value="{{ $user->phone_number }}" class="bg-gray-50 border-gray-100 text-gray-600 text-xs rounded-xl block w-full p-3 font-bold cursor-not-allowed" readonly>
+                            <button type="button" data-modal-target="changePhoneModal" data-modal-toggle="changePhoneModal" class="absolute end-2 top-2 text-[10px] font-bold bg-primary-600 text-white px-3 py-1.5 rounded-lg hover:bg-primary-700 transition shadow-sm uppercase">Ubah</button>
+                        </div>
                     </div>
-                    <p class="text-xs text-gray-400 mt-2">Nomor harus aktif untuk menerima OTP.</p>
-                </div>
-
-                <!-- Tombol Ganti Password (Trigger Modal) -->
-                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-6">
-                    <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                        Keamanan
-                    </h4>
-                    <button type="button" data-modal-target="changePasswordModal" data-modal-toggle="changePasswordModal" class="w-full text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 flex items-center justify-center gap-2">
+                    <button type="button" data-modal-target="changePasswordModal" data-modal-toggle="changePasswordModal" class="w-full py-3 border border-gray-100 text-gray-900 font-bold rounded-xl text-xs hover:bg-gray-50 transition-all flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                         Ganti Password
                     </button>
                 </div>
-            </div>
+            </x-content-card>
+        </div>
 
-            <!-- KOLOM KANAN: Detail Pekerjaan & Alamat -->
-            <div class="lg:col-span-2 space-y-6">
-                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm p-8">
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
-                        Detail Pekerjaan & Lokasi
-                    </h3>
-
-                    <!-- Grid Jabatan -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        <div>
-                            <label for="job_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jabatan <span class="text-red-500">*</span></label>
-                            <select id="job_title" name="job_title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required>
-                                <option value="">Pilih Jabatan</option>
-                                @foreach(['Staff', 'Analis', 'Supervisor', 'Manajer', 'Kepala Divisi', 'Direktur', 'CEO', 'CTO', 'CIO', 'COO'] as $j)
-                                    <option value="{{ $j }}" {{ old('job_title', $profile->job_title) == $j ? 'selected' : '' }}>{{ $j }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <label for="job_sector" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bidang Pekerjaan <span class="text-red-500">*</span></label>
-                            <select id="job_sector" name="job_sector" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required>
-                                <option value="">Pilih Sektor</option>
-                                @foreach(['Teknologi', 'Keuangan', 'Manufaktur', 'Perdagangan', 'Pendidikan', 'Kesehatan', 'Logistik', 'Pemerintahan', 'Energi', 'Kreatif'] as $s)
-                                    <option value="{{ $s }}" {{ old('job_sector', $profile->job_sector) == $s ? 'selected' : '' }}>{{ $s }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <label for="nik" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIK (Opsional)</label>
-                            <input type="text" id="nik" name="nik" value="{{ old('nik', $profile->additional_primary_fields['nik'] ?? '') }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Nomor Induk Kependudukan">
-                        </div>
+        <!-- MAIN FORM -->
+        <div class="lg:col-span-2 space-y-6">
+            <x-content-card>
+                <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-8 border-b border-gray-50 pb-4">Personal & Professional Info</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div>
+                        <label class="block mb-2 text-xs font-bold text-gray-400 uppercase">Nama Lengkap</label>
+                        <input type="text" name="full_name" value="{{ old('full_name', $user->full_name) }}" class="bg-gray-50 border-gray-100 text-gray-900 text-sm rounded-xl focus:ring-primary-500 focus:border-primary-500 block w-full p-3 font-medium" required>
                     </div>
-
-                    <!-- Section Alamat -->
-                    <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-4 mt-8 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        Alamat Kantor
-                    </h4>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                        <!-- Provinsi -->
-                        <div>
-                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Provinsi <span class="text-red-500">*</span></label>
-                            <select id="province_select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
-                                <option value="">Memuat Provinsi...</option>
-                            </select>
-                            <input type="hidden" name="province_id" id="province_id" value="{{ old('province_id', $profile->province_id) }}">
-                            <input type="hidden" name="province_name" id="province_name" value="{{ old('province_name', $profile->province_name) }}">
-                        </div>
-
-                        <!-- Kota/Kabupaten -->
-                        <div>
-                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kota/Kabupaten <span class="text-red-500">*</span></label>
-                            <select id="city_select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" disabled required>
-                                <option value="">Pilih Provinsi Dulu</option>
-                            </select>
-                            <input type="hidden" name="city_id" id="city_id" value="{{ old('city_id', $profile->city_id) }}">
-                            <input type="hidden" name="city_name" id="city_name" value="{{ old('city_name', $profile->city_name) }}">
-                        </div>
+                    <div>
+                        <label class="block mb-2 text-xs font-bold text-gray-400 uppercase">NIK (KTP)</label>
+                        <input type="text" name="nik" value="{{ old('nik', $profile->additional_primary_fields['nik'] ?? '') }}" class="bg-gray-50 border-gray-100 text-gray-900 text-sm rounded-xl focus:ring-primary-500 focus:border-primary-500 block w-full p-3 font-medium" placeholder="16 digit NIK">
                     </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
-                        <!-- Kode Pos -->
-                        <div class="md:col-span-1">
-                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode Pos <span class="text-red-500">*</span></label>
-                            <input type="text" name="postal_code" value="{{ old('postal_code', $profile->postal_code) }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
-                        </div>
-                        <!-- Detail Jalan -->
-                        <div class="md:col-span-2">
-                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Jalan / Gedung <span class="text-red-500">*</span></label>
-                            <input type="text" name="company_address" value="{{ old('company_address', $profile->company_address) }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Jl. Jenderal Sudirman No. 1..." required>
-                        </div>
+                    <div>
+                        <label class="block mb-2 text-xs font-bold text-gray-400 uppercase">Jabatan</label>
+                        <select name="job_title" class="bg-gray-50 border-gray-100 text-gray-900 text-sm rounded-xl focus:ring-primary-500 focus:border-primary-500 block w-full p-3 font-medium" required>
+                            <option value="">Pilih Jabatan</option>
+                            @foreach(['Staff', 'Analis', 'Supervisor', 'Manajer', 'Kepala Divisi', 'Direktur', 'CEO', 'CTO', 'CIO', 'COO'] as $j)
+                                <option value="{{ $j }}" {{ old('job_title', $profile->job_title) == $j ? 'selected' : '' }}>{{ $j }}</option>
+                            @endforeach
+                        </select>
                     </div>
-
-                    <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 flex justify-end">
-                        <button type="submit" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-base px-8 py-3 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 shadow-lg transform transition hover:-translate-y-0.5">
-                            Simpan Perubahan Profil
-                        </button>
+                    <div>
+                        <label class="block mb-2 text-xs font-bold text-gray-400 uppercase">Bidang Pekerjaan</label>
+                        <select name="job_sector" class="bg-gray-50 border-gray-100 text-gray-900 text-sm rounded-xl focus:ring-primary-500 focus:border-primary-500 block w-full p-3 font-medium" required>
+                            <option value="">Pilih Sektor</option>
+                            @foreach(['Teknologi', 'Keuangan', 'Manufaktur', 'Perdagangan', 'Pendidikan', 'Kesehatan', 'Logistik', 'Pemerintahan', 'Energi', 'Kreatif'] as $s)
+                                <option value="{{ $s }}" {{ old('job_sector', $profile->job_sector) == $s ? 'selected' : '' }}>{{ $s }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
-            </div>
-        </form>
+
+                <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-8 border-b border-gray-50 pb-4 mt-12">Lokasi Kantor</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block mb-2 text-xs font-bold text-gray-400 uppercase tracking-wider">Provinsi</label>
+                        <select id="province_select" class="bg-gray-50 border-gray-100 text-gray-900 text-sm rounded-xl focus:ring-primary-500 focus:border-primary-500 block w-full p-3 font-medium" required>
+                            <option value="">Memuat Provinsi...</option>
+                        </select>
+                        <input type="hidden" name="province_id" id="province_id" value="{{ old('province_id', $profile->province_id) }}">
+                        <input type="hidden" name="province_name" id="province_name" value="{{ old('province_name', $profile->province_name) }}">
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-xs font-bold text-gray-400 uppercase tracking-wider">Kota/Kabupaten</label>
+                        <select id="city_select" class="bg-gray-50 border-gray-100 text-gray-900 text-sm rounded-xl focus:ring-primary-500 focus:border-primary-500 block w-full p-3 font-medium" disabled required>
+                            <option value="">Pilih Provinsi Dulu</option>
+                        </select>
+                        <input type="hidden" name="city_id" id="city_id" value="{{ old('city_id', $profile->city_id) }}">
+                        <input type="hidden" name="city_name" id="city_name" value="{{ old('city_name', $profile->city_name) }}">
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-xs font-bold text-gray-400 uppercase tracking-wider">Kode Pos</label>
+                        <input type="text" name="postal_code" value="{{ old('postal_code', $profile->postal_code) }}" class="bg-gray-50 border-gray-100 text-gray-900 text-sm rounded-xl focus:ring-primary-500 focus:border-primary-500 block w-full p-3 font-bold" required>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-xs font-bold text-gray-400 uppercase tracking-wider">Alamat Lengkap</label>
+                        <input type="text" name="company_address" value="{{ old('company_address', $profile->company_address) }}" class="bg-gray-50 border-gray-100 text-gray-900 text-sm rounded-xl focus:ring-primary-500 focus:border-primary-500 block w-full p-3 font-medium" placeholder="Gedung, Lantai, No. Kantor..." required>
+                    </div>
+                </div>
+
+                <div class="pt-8 border-t border-gray-50 flex justify-end">
+                    <button type="submit" class="text-white bg-primary-600 hover:bg-primary-700 font-bold rounded-xl text-sm px-10 py-4 transition-all shadow-sm active:scale-95 uppercase tracking-wider">
+                        Simpan Profil
+                    </button>
+                </div>
+            </x-content-card>
+        </div>
+    </form>
     </div>
 
     <!-- MODAL 1: GANTI HP (OTP) -->

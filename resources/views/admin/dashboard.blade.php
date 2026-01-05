@@ -1,211 +1,167 @@
 <x-app-layout>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <div class="grid grid-cols-1 gap-6 mb-6">
-
-        <!-- HEADER SECTION -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
-            <div>
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Dashboard AdminSSS</h2>
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    Pantau aktivitas sistem, verifikasi pengguna, dan validasi dokumen lingkungan.
-                </p>
+    <x-page-header 
+        title="Selamat Pagi, Admin! 👋" 
+        subtitle="Berikut adalah ringkasan aktivitas sistem hari ini.">
+        <x-slot:actions>
+            <div class="px-4 py-2 bg-blue-50 text-blue-700 rounded-xl text-xs font-bold border border-blue-100 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                {{ now()->format('d F Y') }}
             </div>
-            <div class="mt-4 md:mt-0">
-                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-3 py-1.5 rounded-full dark:bg-blue-900 dark:text-blue-300 border border-blue-200 dark:border-blue-800 flex items-center gap-2">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    {{ now()->format('d F Y') }}
-                </span>
-            </div>
-        </div>
+        </x-slot:actions>
+    </x-page-header>
 
-        <!-- STATISTIK CARDS -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Card 1: Total User -->
-            <div class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:border-gray-700 dark:bg-gray-800 relative overflow-hidden group hover:border-primary-500 transition-colors">
-                <div class="absolute right-0 top-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                    <svg class="w-20 h-20 text-primary-600" fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg>
-                </div>
-                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pengguna Terdaftar</dt>
-                <dd class="mt-2 flex items-end justify-between">
-                    <span class="text-4xl font-extrabold text-gray-900 dark:text-white">{{ $stats['total_users'] }}</span>
-                    <div class="flex flex-col text-right z-10">
-                        <span class="text-green-600 bg-green-100 px-2 py-0.5 rounded text-xs font-bold mb-1">{{ $stats['active_users'] }} Aktif</span>
-                        @if($stats['pending_users'] > 0)
-                            <span class="text-yellow-700 bg-yellow-100 px-2 py-0.5 rounded text-xs font-bold animate-pulse">{{ $stats['pending_users'] }} Pending</span>
-                        @endif
-                    </div>
-                </dd>
-            </div>
+    <!-- STATISTIK CARDS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <x-stat-card 
+            label="Pengguna" 
+            value="{{ $stats['total_users'] }}" 
+            icon='<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>'
+            trend="{{ $stats['active_users'] }} Aktif"
+            iconColor="primary"
+        />
+        
+        <x-stat-card 
+            label="Dokumen" 
+            value="{{ $stats['total_documents'] }}" 
+            icon='<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>'
+            trend="{{ $stats['pending_documents'] }} Pending"
+            trendUp="{{ $stats['pending_documents'] == 0 }}"
+            iconColor="purple"
+        />
 
-            <!-- Card 2: Total Dokumen -->
-            <div class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:border-gray-700 dark:bg-gray-800 relative overflow-hidden group hover:border-primary-500 transition-colors">
-                <div class="absolute right-0 top-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                    <svg class="w-20 h-20 text-purple-600" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"></path></svg>
-                </div>
-                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Dokumen</dt>
-                <dd class="mt-2 flex items-end justify-between">
-                    <span class="text-4xl font-extrabold text-gray-900 dark:text-white">{{ $stats['total_documents'] }}</span>
-                    <div class="flex flex-col text-right z-10">
-                        @if($stats['pending_documents'] > 0)
-                            <span class="text-red-700 bg-red-100 px-2 py-0.5 rounded text-xs font-bold animate-pulse">{{ $stats['pending_documents'] }} Perlu Review</span>
-                        @else
-                            <span class="text-green-600 bg-green-100 px-2 py-0.5 rounded text-xs font-bold">Semua Bersih</span>
-                        @endif
-                    </div>
-                </dd>
-            </div>
+        <x-stat-card 
+            label="Penyimpanan" 
+            value="{{ number_format($stats['total_storage_bytes'] / 1048576, 1) }} MB" 
+            icon='<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>'
+            trend="Total Usage"
+            iconColor="blue"
+        />
 
-            <!-- Card 3: Storage -->
-            <div class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:border-gray-700 dark:bg-gray-800 relative overflow-hidden group hover:border-primary-500 transition-colors">
-                <div class="absolute right-0 top-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                    <svg class="w-20 h-20 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                </div>
-                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Penyimpanan Sistem</dt>
-                <dd class="mt-2">
-                    <span class="text-4xl font-extrabold text-gray-900 dark:text-white">
-                        {{ number_format($stats['total_storage_bytes'] / 1048576, 2) }}
-                    </span>
-                    <span class="text-lg text-gray-500 font-bold">MB</span>
-                </dd>
-                <p class="text-xs text-gray-400 mt-2">Total ukuran file asli yang diunggah.</p>
-            </div>
-        </div>
-
-        <!-- MAIN CONTENT GRID (TABEL SCROLLABLE) -->
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
-
-            <!-- TABEL 1: USER PENDING -->
-            <div class="bg-white border border-gray-200 rounded-xl shadow-sm dark:border-gray-700 dark:bg-gray-800 flex flex-col h-[400px]"> <!-- Set Fixed Height -->
-                <div class="p-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 rounded-t-xl flex justify-between items-center flex-shrink-0">
-                    <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                        <span class="relative flex h-3 w-3">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
-                        </span>
-                        Verifikasi Pengguna Baru
-                    </h3>
-                    <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{ $pendingUsers->count() }} Pending</span>
-                </div>
-
-                <!-- Scrollable Area -->
-                <div class="flex-1 overflow-y-auto custom-scrollbar">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 relative">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
-                            <tr>
-                                <th class="px-6 py-3">User Detail</th>
-                                <th class="px-6 py-3 text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                            @forelse($pendingUsers as $u)
-                            <tr class="bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors">
-                                <td class="px-6 py-4">
-                                    <div class="font-bold text-gray-900 dark:text-white text-base">{{ $u->full_name }}</div>
-                                    <div class="text-xs text-gray-500">{{ $u->email }} | {{ $u->phone_number }}</div>
-                                    <div class="text-xs text-gray-400 mt-1">{{ $u->created_at->diffForHumans() }}</div>
-                                </td>
-                                <td class="px-6 py-4 text-center">
-                                    <div class="flex justify-center gap-2">
-                                        <button type="button" onclick="openConfirmModal('{{ route('admin.users.approve', $u->id) }}', 'Setujui User', 'Apakah Anda yakin ingin mengaktifkan user {{ $u->full_name }}?', 'bg-green-600 hover:bg-green-700', 'Ya, Aktifkan')" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-xs px-3 py-2">
-                                            Approve
-                                        </button>
-                                        <button type="button" onclick="openConfirmModal('{{ route('admin.users.reject', $u->id) }}', 'Tolak User', 'Apakah Anda yakin ingin menolak user {{ $u->full_name }}?', 'bg-red-600 hover:bg-red-700', 'Ya, Tolak')" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-xs px-3 py-2">
-                                            Reject
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="2" class="px-6 py-6 text-center text-gray-500">Tidak ada antrian.</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- TABEL 2: DOKUMEN PENDING -->
-            <div class="bg-white border border-gray-200 rounded-xl shadow-sm dark:border-gray-700 dark:bg-gray-800 flex flex-col h-[400px]"> <!-- Set Fixed Height -->
-                <div class="p-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 rounded-t-xl flex justify-between items-center flex-shrink-0">
-                    <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                        <span class="relative flex h-3 w-3">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
-                        </span>
-                        Verifikasi Dokumen
-                    </h3>
-                    <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">{{ $pendingDocuments->count() }} Perlu Review</span>
-                </div>
-
-                <!-- Scrollable Area -->
-                <div class="flex-1 overflow-y-auto custom-scrollbar">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 relative">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0 z-10">
-                            <tr>
-                                <th class="px-6 py-3">Informasi Dokumen</th>
-                                <th class="px-6 py-3 text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                            @forelse($pendingDocuments as $d)
-                            <tr class="bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors">
-                                <td class="px-6 py-4">
-                                    <a href="{{ route('admin.documents.view', $d->id) }}" target="_blank" class="font-bold text-blue-600 hover:underline block truncate max-w-[180px]" title="{{ $d->original_filename }}">
-                                        {{ $d->original_filename }}
-                                    </a>
-                                    <div class="text-xs text-gray-500">User: {{ $d->uploader_name }}</div>
-                                    <div class="text-xs text-gray-400">
-                                        {{ \Carbon\Carbon::parse($d->updated_at ?? $d->created_at)->diffForHumans() }}
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-center">
-                                    <div class="flex justify-center gap-2">
-                                        <!-- Approve -->
-                                        <button type="button" onclick="openConfirmModal('{{ route('admin.documents.approve', $d->id) }}', 'Setujui Dokumen', 'Dokumen {{ $d->original_filename }} valid?', 'bg-green-600 hover:bg-green-700', 'Ya, Setujui')" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-xs px-3 py-2">
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                        </button>
-
-                                        <!-- Reject -->
-                                        <button type="button" data-modal-target="rejectModal" data-modal-toggle="rejectModal"
-                                                data-doc-id="{{ $d->id }}"
-                                                data-doc-name="{{ $d->original_filename }}"
-                                                class="reject-btn text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-xs px-3 py-2">
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="2" class="px-6 py-6 text-center text-gray-500">Tidak ada dokumen pending.</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- GRAFIK STATISTIK DENGAN FILTER -->
-        <div class="bg-white border border-gray-200 rounded-xl shadow-sm dark:border-gray-700 dark:bg-gray-800 p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-gray-900 dark:text-white">Statistik Aktivitas</h3>
-                <form method="GET" action="{{ route('admin.dashboard') }}" id="chartFilterForm" class="flex items-center gap-2">
-                    <label for="chart_filter" class="text-sm text-gray-500 dark:text-gray-400">Filter:</label>
-                    <select name="filter" id="chart_filter" onchange="document.getElementById('chartFilterForm').submit()" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                        <option value="7_days" {{ $filter == '7_days' ? 'selected' : '' }}>7 Hari Terakhir</option>
-                        <option value="1_month" {{ $filter == '1_month' ? 'selected' : '' }}>1 Bulan Terakhir</option>
-                        <option value="1_year" {{ $filter == '1_year' ? 'selected' : '' }}>1 Tahun Terakhir</option>
-                    </select>
-                </form>
-            </div>
-            <div class="relative h-72 w-full">
-                <canvas id="activityChart"></canvas>
-            </div>
-        </div>
+        <x-stat-card 
+            label="Hari Ini" 
+            value="{{ $chartData['documents'][count($chartData['documents'])-1] ?? 0 }}" 
+            icon='<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>'
+            trend="Upload Baru"
+            iconColor="orange"
+        />
     </div>
+
+    <!-- MAIN CONTENT GRID -->
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
+
+        <!-- TABEL 1: USER PENDING -->
+        <x-content-card class="flex flex-col h-[450px] !p-0 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2 uppercase tracking-wider">
+                    <span class="flex h-2 w-2 rounded-full bg-blue-500"></span>
+                    Verifikasi Pengguna
+                </h3>
+                <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">{{ $pendingUsers->count() }} Pending</span>
+            </div>
+
+            <div class="flex-1 overflow-y-auto no-scrollbar">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-[10px] text-gray-400 uppercase tracking-widest bg-gray-50/50 sticky top-0 border-b border-gray-100">
+                        <tr>
+                            <th class="px-6 py-3">User Detail</th>
+                            <th class="px-6 py-3 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        @forelse($pendingUsers as $u)
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-gray-900">{{ $u->full_name }}</div>
+                                <div class="text-xs text-gray-400">{{ $u->email }}</div>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="flex justify-end gap-2">
+                                    <button type="button" onclick="openConfirmModal('{{ route('admin.users.approve', $u->id) }}', 'Setujui User', 'Aktifkan user {{ $u->full_name }}?', 'bg-primary-600 hover:bg-primary-700', 'Approve')" class="text-white bg-primary-600 hover:bg-primary-700 font-bold rounded-lg text-[10px] px-3 py-1.5 uppercase tracking-wider">
+                                        Approve
+                                    </button>
+                                    <button type="button" onclick="openConfirmModal('{{ route('admin.users.reject', $u->id) }}', 'Tolak User', 'Tolak user {{ $u->full_name }}?', 'bg-red-600 hover:bg-red-700', 'Reject')" class="text-white bg-red-600 hover:bg-red-700 font-bold rounded-lg text-[10px] px-3 py-1.5 uppercase tracking-wider">
+                                        Reject
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="2" class="px-6 py-10 text-center text-gray-400 italic">Tidak ada antrian pendig.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </x-content-card>
+
+        <!-- TABEL 2: DOKUMEN PENDING -->
+        <x-content-card class="flex flex-col h-[450px] !p-0 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2 uppercase tracking-wider">
+                    <span class="flex h-2 w-2 rounded-full bg-yellow-500"></span>
+                    Verifikasi Dokumen
+                </h3>
+                <span class="bg-yellow-100 text-yellow-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">{{ $pendingDocuments->count() }} Review</span>
+            </div>
+
+            <div class="flex-1 overflow-y-auto no-scrollbar">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-[10px] text-gray-400 uppercase tracking-widest bg-gray-50/50 sticky top-0 border-b border-gray-100">
+                        <tr>
+                            <th class="px-6 py-3">Informasi Dokumen</th>
+                            <th class="px-6 py-3 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        @forelse($pendingDocuments as $d)
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4">
+                                <a href="{{ route('admin.documents.view', $d->id) }}" target="_blank" class="font-bold text-gray-900 hover:text-primary-600 truncate block max-w-[200px]">
+                                    {{ $d->original_filename }}
+                                </a>
+                                <div class="text-[10px] text-gray-400 font-medium">By: {{ $d->uploader_name }}</div>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="flex justify-end gap-2">
+                                    <button type="button" onclick="openConfirmModal('{{ route('admin.documents.approve', $d->id) }}', 'Setujui Dokumen', 'Validasi dokumen?', 'bg-primary-600 hover:bg-primary-700', 'Sesuai')" class="text-white bg-primary-600 hover:bg-primary-700 rounded-lg p-2 transition-transform active:scale-95">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    </button>
+                                    <button type="button" data-modal-target="rejectModal" data-modal-toggle="rejectModal" data-doc-id="{{ $d->id }}" data-doc-name="{{ $d->original_filename }}" class="reject-btn text-white bg-red-600 hover:bg-red-700 rounded-lg p-2 transition-transform active:scale-95">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="2" class="px-6 py-10 text-center text-gray-400 italic">Semua dokumen telah diperiksa.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </x-content-card>
+    </div>
+
+    <!-- GRAFIK STATS -->
+    <x-content-card class="mb-8">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider">Analitik Aktivitas</h3>
+            <form method="GET" action="{{ route('admin.dashboard') }}" id="chartFilterForm">
+                <select name="filter" onchange="this.form.submit()" class="bg-gray-50 border-gray-100 text-gray-600 text-xs rounded-xl focus:ring-primary-500 focus:border-primary-500">
+                    <option value="7_days" {{ $filter == '7_days' ? 'selected' : '' }}>Seminggu Terakhir</option>
+                    <option value="1_month" {{ $filter == '1_month' ? 'selected' : '' }}>Sebulan Terakhir</option>
+                    <option value="1_year" {{ $filter == '1_year' ? 'selected' : '' }}>Setahun Terakhir</option>
+                </select>
+            </form>
+        </div>
+        <div class="h-80 w-full">
+            <canvas id="activityChart"></canvas>
+        </div>
+    </x-content-card>
 
     <!-- MODAL KONFIRMASI UNIVERSAL (Approve User/Doc) -->
     <div id="universalConfirmModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">

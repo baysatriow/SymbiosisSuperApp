@@ -1,255 +1,220 @@
 <x-app-layout>
-    <div class="flex h-[calc(100vh-80px)] antialiased text-gray-800">
-        <div class="flex flex-row h-full w-full overflow-x-hidden bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-
-            <!-- SIDEBAR RIWAYAT CHAT -->
-            <div class="hidden md:flex flex-col py-6 pl-6 pr-4 w-72 bg-white dark:bg-gray-800 flex-shrink-0 border-r border-gray-200 dark:border-gray-700">
-                <div class="flex flex-row items-center justify-between h-12 w-full mb-4">
-                    <div class="flex flex-col">
-                        <span class="font-bold text-xl text-gray-800 dark:text-white">Riwayat Chat</span>
-                        <a href="{{ route('user.chat.index') }}" class="text-xs text-gray-500 hover:text-primary-600 flex items-center gap-1 mt-1">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                            Ke Daftar Utama
-                        </a>
-                    </div>
+    <div class="flex h-[calc(100vh-64px)] overflow-hidden">
+        <!-- SIDEBAR: CHAT HISTORY -->
+        <div class="hidden md:flex w-80 flex-shrink-0 bg-white border-r border-gray-100 flex-col">
+            <div class="p-6 border-b border-gray-50 bg-gray-50/50">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-sm font-bold text-gray-900 uppercase tracking-widest">Riwayat Chat</h2>
                     <form action="{{ route('user.chat.store') }}" method="POST">
                         @csrf
-                        <button type="submit" class="flex items-center justify-center rounded-full text-white bg-primary-600 h-10 w-10 hover:bg-primary-700 transition shadow-md" title="Buat Chat Baru">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        <button type="submit" class="w-8 h-8 rounded-lg bg-primary-600 text-white flex items-center justify-center hover:bg-primary-700 transition-all shadow-sm active:scale-95" title="Buat Chat Baru">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                         </button>
                     </form>
                 </div>
-
-                <div class="flex flex-col space-y-2 overflow-y-auto h-full pr-2 custom-scrollbar">
-                    @foreach($sessions as $s)
-                        <!-- Wrapper Item Chat -->
-                        <div class="group flex flex-row items-center p-2 rounded-xl transition-all duration-200 mb-1 cursor-pointer
-                           {{ $session->id == $s->id
-                                ? 'bg-primary-50 border-l-4 border-primary-600 shadow-sm dark:bg-gray-700 dark:border-primary-500'
-                                : 'hover:bg-gray-50 border-l-4 border-transparent dark:hover:bg-gray-700'
-                           }}">
-
-                            <!-- Link Utama (Klik untuk buka chat) -->
-                            <a href="{{ route('user.chat.show', $s->id) }}" class="flex items-center flex-1 min-w-0">
-                                <div class="flex items-center justify-center h-9 w-9 rounded-full flex-shrink-0
-                                    {{ $session->id == $s->id ? 'bg-primary-100 text-primary-600' : 'bg-gray-100 text-gray-500 dark:bg-gray-600 dark:text-gray-300' }}">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 01-2-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
-                                </div>
-                                <div class="ml-3 flex-1 overflow-hidden">
-                                    <div class="text-sm font-semibold truncate {{ $session->id == $s->id ? 'text-primary-800 dark:text-primary-300' : 'text-gray-700 dark:text-gray-300' }}">
-                                        {{ $s->title }}
-                                    </div>
-                                    <div class="text-xs text-gray-400 truncate">
-                                        {{ $s->created_at->diffForHumans() }}
-                                    </div>
-                                </div>
-                            </a>
-
-                            <!-- Tombol Delete (Muncul saat Hover atau Aktif) -->
-                            <form action="{{ route('user.chat.delete', $s->id) }}" method="POST"
-                                  class="{{ $session->id == $s->id ? 'block' : 'hidden group-hover:block' }} ml-1"
-                                  onsubmit="return confirm('Apakah Anda yakin ingin menghapus sesi chat ini?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md transition dark:hover:bg-red-900/20" title="Hapus Chat">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                </button>
-                            </form>
-                        </div>
-                    @endforeach
-                </div>
+                <a href="{{ route('user.chat.index') }}" class="text-[10px] font-bold text-gray-400 hover:text-primary-600 flex items-center gap-1 mt-1 transition-colors group">
+                    <svg class="w-3 h-3 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                    KEMBALI KE DAFTAR
+                </a>
             </div>
 
-            <!-- AREA CHAT UTAMA (Kode di bawah ini sama, hanya menyertakan pembuka untuk konteks file) -->
-            <div class="flex flex-col flex-auto h-full bg-gray-50 dark:bg-gray-900 relative">
-
-                <!-- Chat Header -->
-                <div class="flex flex-row justify-between items-center px-6 py-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm z-10">
-                    <!-- ... (Header Content Tetap Sama) ... -->
-                    <div class="flex items-center">
-                        <a href="{{ route('user.chat.index') }}" class="md:hidden mr-3 text-gray-500 hover:text-primary-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                        </a>
-
-                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 text-white font-bold shadow-sm">
-                            AI
-                        </div>
-                        <div class="ml-3">
-                            <div class="font-bold text-gray-800 dark:text-white text-lg leading-tight">Symbiosis AI</div>
-                            <div class="text-xs text-green-500 font-medium flex items-center gap-1">
-                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                                Online • Gemini 2.5 Flash
+            <div class="flex-1 overflow-y-auto p-4 space-y-2 custom-scrollbar">
+                @foreach($sessions as $s)
+                    <div class="group relative flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer border
+                        {{ $session->id == $s->id ? 'bg-primary-50 border-primary-100' : 'hover:bg-gray-50 border-transparent hover:border-gray-100' }}">
+                        <a href="{{ route('user.chat.show', $s->id) }}" class="flex items-center gap-3 flex-1 min-w-0">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105
+                                {{ $session->id == $s->id ? 'bg-primary-600 text-white shadow-md shadow-primary-200' : 'bg-gray-100 text-gray-400' }}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 01-2-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="flex gap-2">
-                        <!-- Tombol Pilih Dokumen -->
-                        <button data-modal-target="docModal" data-modal-toggle="docModal" class="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 text-sm font-medium text-gray-700 shadow-sm transition dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
-                            <svg class="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                            <span class="hidden sm:inline">Pilih Dokumen:</span>
-                            <span class="bg-primary-100 text-primary-700 px-2 py-0.5 rounded-full text-xs font-bold">{{ $session->documents->count() }}</span>
-                        </button>
-
-                        <!-- Tombol Hapus Chat (Header) -->
-                        <form action="{{ route('user.chat.clear', $session->id) }}" method="POST" onsubmit="return confirm('Hapus semua pesan dalam sesi ini?');">
-                            @csrf
-                            <button type="submit" class="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition dark:hover:bg-red-900/30" title="Bersihkan Chat">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            <div class="min-w-0">
+                                <h4 class="text-xs font-bold truncate transition-colors {{ $session->id == $s->id ? 'text-primary-900' : 'text-gray-900 group-hover:text-primary-700' }}">{{ $s->title }}</h4>
+                                <p class="text-[10px] text-gray-400 font-medium mt-0.5">{{ $s->created_at->diffForHumans() }}</p>
+                            </div>
+                        </a>
+                        
+                        <form action="{{ route('user.chat.delete', $s->id) }}" method="POST" class="{{ $session->id == $s->id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100' }} transition-opacity" onsubmit="return confirm('Hapus riwayat chat?')">
+                            @csrf @method('DELETE')
+                            <button type="submit" class="p-1.5 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all" title="Hapus">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                             </button>
                         </form>
                     </div>
-                </div>
+                @endforeach
+            </div>
+        </div>
 
-                <!-- Messages Container -->
-                <div class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 scroll-smooth" id="messages-container">
-                    <div class="flex justify-center">
-                        <div class="bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300 text-xs px-4 py-2 rounded-full shadow-sm border border-gray-200 dark:border-gray-600">
-                            Sesi dimulai {{ $session->created_at->format('d M Y, H:i') }}
+        <!-- MAIN CHAT AREA -->
+        <div class="flex-1 bg-gray-50/30 flex flex-col relative overflow-hidden">
+            <!-- Header -->
+            <div class="px-6 py-4 bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between sticky top-0 z-20">
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('user.chat.index') }}" class="md:hidden p-2 -ml-2 text-gray-400 hover:bg-gray-100 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </a>
+
+                    <div class="relative">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-primary-200">AI</div>
+                        <span class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full"></span>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-900 uppercase tracking-widest leading-none">Symbiosis AI</h3>
+                        <div class="flex items-center gap-2 mt-1.5">
+                            <span class="flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+                                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                                ONLINE
+                            </span>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">GEMINI 2.5 FLASH</span>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Welcome Message -->
-                    @if($session->messages->isEmpty())
-                        <div class="flex justify-start w-full">
-                            <div class="flex items-end gap-2 max-w-[85%] md:max-w-[75%]">
-                                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex-shrink-0 flex items-center justify-center text-white text-xs font-bold">AI</div>
-                                <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl rounded-bl-none shadow-sm border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 text-sm leading-relaxed">
-                                    Halo! Saya siap membantu menganalisis dokumen Anda.
+                <div class="flex items-center gap-3">
+                    <button data-modal-target="docModal" data-modal-toggle="docModal" class="flex items-center gap-3 px-4 py-2 bg-white border border-gray-100 rounded-xl hover:bg-gray-50 shadow-sm transition-all group">
+                        <div class="w-6 h-6 rounded-lg bg-primary-50 text-primary-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        </div>
+                        <div class="text-left hidden sm:block">
+                            <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-0.5">Analisis Data</p>
+                            <p class="text-[11px] font-bold text-gray-900 leading-none">{{ $session->documents->count() }} Dokumen Terpilih</p>
+                        </div>
+                    </button>
+
+                    <div class="w-px h-8 bg-gray-100 mx-1 hidden sm:block"></div>
+
+                    <form action="{{ route('user.chat.clear', $session->id) }}" method="POST" onsubmit="return confirm('Bersihkan riwayat?')">
+                        @csrf
+                        <button type="submit" class="p-2.5 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all" title="Bersihkan Chat">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Messages List -->
+            <div class="flex-1 overflow-y-auto p-6 md:p-8 space-y-8 custom-scrollbar" id="messages-container">
+                <div class="flex justify-center mb-4">
+                    <span class="px-4 py-1 bg-white border border-gray-50 rounded-full text-[9px] font-bold text-gray-400 uppercase tracking-widest shadow-sm">Percakapan dimulai {{ $session->created_at->format('d M Y, H:i') }}</span>
+                </div>
+
+                @if($session->messages->isEmpty())
+                    <div class="flex gap-4 max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
+                        <div class="w-10 h-10 rounded-xl bg-primary-600 text-white flex items-center justify-center flex-shrink-0 font-bold text-sm shadow-lg shadow-primary-200">AI</div>
+                        <div class="space-y-4">
+                            <div class="bg-white p-5 rounded-2xl rounded-tl-none shadow-sm border border-white text-sm text-gray-800 leading-relaxed font-medium">
+                                Halo <strong>{{ Auth::user()->full_name }}</strong>! Saya siap membantu Anda menganalisis dokumen lingkungan dan memberikan wawasan khusus terkait regulasi ESG. Apa yang bisa saya bantu hari ini?
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <button onclick="document.getElementById('chat-input').value = 'Ringkas dokumen yang saya pilih'; document.getElementById('chat-form').submit();" class="text-left p-3 rounded-xl border border-gray-100 bg-white/50 hover:bg-white hover:border-primary-200 text-[11px] text-gray-500 font-bold uppercase tracking-wider transition-all hover:shadow-sm">&rarr; Ringkas Dokumen</button>
+                                <button onclick="document.getElementById('chat-input').value = 'Bandingkan regulasi dalam dokumen'; document.getElementById('chat-form').submit();" class="text-left p-3 rounded-xl border border-gray-100 bg-white/50 hover:bg-white hover:border-primary-200 text-[11px] text-gray-500 font-bold uppercase tracking-wider transition-all hover:shadow-sm">&rarr; Bandingkan Regulasi</button>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                @foreach($session->messages as $msg)
+                    @if($msg->role == 'user')
+                        <div class="flex justify-end animate-in fade-in slide-in-from-right-4 duration-300">
+                            <div class="flex gap-4 max-w-[85%] flex-row-reverse items-start">
+                                <div class="w-10 h-10 rounded-xl bg-gray-200 flex items-center justify-center text-gray-500 font-bold text-sm flex-shrink-0 uppercase">{{ substr(Auth::user()->full_name, 0, 1) }}</div>
+                                <div class="bg-primary-600 p-5 rounded-2xl rounded-tr-none shadow-xl shadow-primary-100 text-sm text-white leading-relaxed font-medium">
+                                    <p class="whitespace-pre-wrap">{{ $msg->content }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="flex justify-start animate-in fade-in slide-in-from-left-4 duration-300">
+                            <div class="flex gap-4 max-w-[85%] items-start">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-600 to-emerald-600 text-white flex items-center justify-center text-sm font-bold flex-shrink-0 shadow-lg shadow-primary-200">AI</div>
+                                <div class="bg-white p-5 rounded-2xl rounded-tl-none shadow-sm border border-white text-sm text-gray-800 leading-relaxed font-medium prose dark:prose-invert prose-p:leading-relaxed prose-pre:bg-gray-900 prose-pre:text-emerald-400 prose-strong:text-primary-700 max-w-none">
+                                    {!! Str::markdown($msg->content) !!}
                                 </div>
                             </div>
                         </div>
                     @endif
+                @endforeach
 
-                    @foreach($session->messages as $msg)
-                        @if($msg->role == 'user')
-                            <div class="flex justify-end w-full">
-                                <div class="flex items-end gap-2 max-w-[85%] md:max-w-[75%] flex-row-reverse">
-                                    <div class="w-8 h-8 rounded-full bg-gray-300 flex-shrink-0 flex items-center justify-center text-gray-600 text-xs font-bold uppercase">
-                                        {{ substr(Auth::user()->full_name, 0, 1) }}
-                                    </div>
-                                    <div class="bg-primary-600 p-4 rounded-2xl rounded-br-none shadow-md text-white text-sm leading-relaxed">
-                                        <p class="whitespace-pre-wrap">{{ $msg->content }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        @else
-                            <div class="flex justify-start w-full">
-                                <div class="flex items-end gap-2 max-w-[85%] md:max-w-[75%]">
-                                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex-shrink-0 flex items-center justify-center text-white text-xs font-bold">AI</div>
-                                    <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl rounded-bl-none shadow-sm border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 text-sm leading-relaxed prose dark:prose-invert max-w-none">
-                                        {!! Str::markdown($msg->content) !!}
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-
-                    <!-- Loading Indicator (Hidden by default) -->
-                    <div id="loading-bubble" class="flex justify-start w-full hidden">
-                        <div class="flex items-end gap-2 max-w-[85%] md:max-w-[75%]">
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex-shrink-0 flex items-center justify-center text-white text-xs font-bold animate-pulse">AI</div>
-                            <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl rounded-bl-none shadow-sm border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-200 text-sm">
-                                <div class="flex space-x-2 items-center h-5">
-                                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0s"></div>
-                                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-                                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
-                                </div>
+                <div id="loading-bubble" class="hidden flex justify-start">
+                    <div class="flex gap-4 items-center">
+                        <div class="w-10 h-10 rounded-xl bg-primary-600 text-white flex items-center justify-center text-sm font-bold animate-pulse shadow-lg shadow-primary-200">AI</div>
+                        <div class="bg-white px-5 py-4 rounded-2xl rounded-tl-none shadow-sm border border-white">
+                            <div class="flex space-x-1.5 h-4 items-center">
+                                <div class="w-1.5 h-1.5 bg-gray-300 rounded-full animate-bounce" style="animation-delay: 0s"></div>
+                                <div class="w-1.5 h-1.5 bg-gray-300 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                                <div class="w-1.5 h-1.5 bg-gray-300 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Input Area (Dengan Fix JS Sebelumnya) -->
-                <div class="bg-white dark:bg-gray-800 p-4 border-t border-gray-200 dark:border-gray-700">
-                    <form action="{{ route('user.chat.send', $session->id) }}" method="POST" class="relative max-w-4xl mx-auto" id="chat-form">
-                        @csrf
-                        <div class="relative">
-                            <input type="text" name="message" id="chat-input" class="w-full pl-5 pr-14 py-4 bg-gray-100 dark:bg-gray-700 border-transparent focus:border-primary-500 focus:bg-white dark:focus:bg-gray-600 focus:ring-0 rounded-xl transition-all text-gray-800 dark:text-white shadow-inner disabled:opacity-50 disabled:cursor-not-allowed" placeholder="Ketik pertanyaan Anda di sini..." required autocomplete="off" autofocus>
-                            <button type="submit" id="send-btn" class="absolute right-2 top-2 p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition shadow-md group disabled:opacity-50 disabled:cursor-not-allowed">
-                                <svg class="w-5 h-5 transform group-hover:rotate-45 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-                            </button>
-                        </div>
-                        <div class="text-center mt-2">
-                            <p class="text-xs text-gray-400">AI dapat membuat kesalahan. Periksa informasi penting.</p>
-                        </div>
-                    </form>
-                </div>
-
+            <!-- Input Area -->
+            <div class="p-6 bg-white border-t border-gray-100">
+                <form action="{{ route('user.chat.send', $session->id) }}" method="POST" class="max-w-4xl mx-auto relative group" id="chat-form">
+                    @csrf
+                    <div class="relative flex items-center">
+                        <input type="text" name="message" id="chat-input" class="w-full pl-6 pr-16 py-5 bg-gray-50 border-transparent focus:border-primary-500 focus:bg-white focus:ring-4 focus:ring-primary-50/50 rounded-2xl transition-all text-sm font-medium text-gray-800 shadow-inner group-hover:bg-gray-100 group-hover:border-gray-100" placeholder="Ketik pesan atau tanyakan sesuatu tentang dokumen Anda..." required autocomplete="off">
+                        <button type="submit" id="send-btn" class="absolute right-3 p-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition shadow-lg shadow-primary-200 active:scale-95 disabled:opacity-50">
+                            <svg class="w-5 h-5 group-focus-within:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                        </button>
+                    </div>
+                    <div class="text-center mt-4">
+                        <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Gunakan kekuatan Gemini AI untuk analisis mendalam</p>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
-    <!-- (MODAL PILIH DOKUMEN - Tetap sama) -->
-    <div id="docModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-2xl max-h-full">
-            <div class="relative bg-white rounded-lg shadow-xl dark:bg-gray-700 flex flex-col max-h-[90vh]">
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 bg-gray-50 dark:bg-gray-800">
+    <!-- DOCUMENT MODAL -->
+    <div id="docModal" tabindex="-1" class="hidden fixed inset-0 z-50 overflow-y-auto overflow-x-hidden flex items-center justify-center p-4 backdrop-blur-sm bg-gray-900/20">
+        <div class="relative w-full max-w-2xl">
+            <div class="bg-white rounded-3xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden border border-white">
+                <div class="px-8 py-6 bg-gray-50/80 border-b border-gray-100 flex items-center justify-between">
                     <div>
-                        <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                            <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
-                            Pilih dari Repository
-                        </h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Centang dokumen yang ingin dianalisis oleh AI.</p>
+                        <h3 class="text-xl font-black text-gray-900 tracking-tight uppercase">Pilih Sumber Data</h3>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">AI akan membaca dokumen yang Anda pilih</p>
                     </div>
-                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="docModal">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/></svg>
-                        <span class="sr-only">Close modal</span>
+                    <button data-modal-hide="docModal" class="p-2 text-gray-400 hover:bg-white rounded-xl transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
+
                 <form action="{{ route('user.chat.documents', $session->id) }}" method="POST" class="flex flex-col flex-1 overflow-hidden">
                     @csrf
-                    <div class="p-4 md:p-5 space-y-3 overflow-y-auto flex-1 bg-gray-50 dark:bg-gray-900 custom-scrollbar">
-                        @if($allDocuments->isEmpty())
-                            <div class="flex flex-col items-center justify-center py-10 text-center border-2 border-dashed border-gray-300 rounded-xl bg-white dark:bg-gray-800 dark:border-gray-600">
-                                <div class="p-3 bg-gray-100 rounded-full dark:bg-gray-700 mb-3">
-                                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <div class="flex-1 overflow-y-auto p-8 space-y-4 custom-scrollbar">
+                        @forelse($allDocuments as $doc)
+                            <label class="block group cursor-pointer">
+                                <input type="checkbox" name="document_ids[]" value="{{ $doc->id }}" class="sr-only peer" {{ $session->documents->contains($doc->id) ? 'checked' : '' }}>
+                                <div class="p-4 rounded-2xl border border-gray-100 bg-gray-50 transition-all peer-checked:bg-primary-50 peer-checked:border-primary-200 peer-checked:shadow-inner flex items-center gap-4 group-hover:scale-[1.01]">
+                                    <div class="w-12 h-12 rounded-xl bg-white border border-gray-100 flex items-center justify-center flex-shrink-0 shadow-sm text-gray-400 peer-checked:text-primary-600 peer-checked:border-primary-100">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-[13px] font-bold text-gray-900 truncate">{{ $doc->original_filename }}</p>
+                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">{{ $doc->subfield?->name }}</p>
+                                    </div>
+                                    <div class="ml-auto w-6 h-6 rounded-full border-2 border-gray-200 flex items-center justify-center peer-checked:bg-primary-600 peer-checked:border-primary-600 transition-colors">
+                                        <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                    </div>
                                 </div>
-                                <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Repository Kosong</h4>
-                                <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">Anda belum memiliki dokumen yang disetujui.</p>
-                                <a href="{{ route('user.documents') }}" class="text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-                                    Pergi ke Halaman Dokumen
-                                </a>
+                            </label>
+                        @empty
+                            <div class="py-16 text-center">
+                                <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-200">
+                                   <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                </div>
+                                <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-2">Repository Kosong</h4>
+                                <p class="text-xs text-gray-400 px-12">Belum ada dokumen yang disetujui untuk dianalisis.</p>
                             </div>
-                        @else
-                            @foreach($allDocuments as $doc)
-                                <label class="flex items-start p-4 bg-white dark:bg-gray-800 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 cursor-pointer border border-gray-200 dark:border-gray-600 shadow-sm transition-all group">
-                                    <div class="flex items-center h-5 mt-1">
-                                        <input type="checkbox" name="document_ids[]" value="{{ $doc->id }}"
-                                            class="w-5 h-5 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                            {{ $session->documents->contains($doc->id) ? 'checked' : '' }}>
-                                    </div>
-                                    <div class="ml-3 flex-1">
-                                        <div class="flex justify-between items-start">
-                                            <div class="text-sm font-semibold text-gray-900 dark:text-gray-200 group-hover:text-primary-700 dark:group-hover:text-primary-400 break-all">
-                                                {{ $doc->original_filename }}
-                                            </div>
-                                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-green-900 dark:text-green-300 whitespace-nowrap ml-2">
-                                                Tersimpan
-                                            </span>
-                                        </div>
-                                        <div class="flex items-center gap-3 mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                            <span class="flex items-center gap-1">
-                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
-                                                {{ $doc->subfield->name }}
-                                            </span>
-                                            <span class="flex items-center gap-1">
-                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                                {{ $doc->created_at->format('d M Y') }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </label>
-                            @endforeach
-                        @endif
+                        @endforelse
                     </div>
-                    <div class="flex items-center justify-between p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600 bg-white dark:bg-gray-800">
-                        <span class="text-xs text-gray-500 dark:text-gray-400">Maksimal 10 dokumen</span>
-                        <div class="flex gap-3">
-                            <button data-modal-hide="docModal" type="button" class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Batal</button>
-                            <button type="submit" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed" {{ $allDocuments->isEmpty() ? 'disabled' : '' }}>
-                                Gunakan Dokumen
-                            </button>
+
+                    <div class="p-8 bg-gray-50/50 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Pilih hingga 10 dokumen</span>
+                        <div class="flex gap-4">
+                            <button data-modal-hide="docModal" type="button" class="px-6 py-3 text-[11px] font-bold text-gray-500 uppercase tracking-widest hover:text-gray-900 transition-colors">Batal</button>
+                            <button type="submit" class="px-8 py-3 bg-primary-600 text-white text-[11px] font-bold uppercase tracking-widest rounded-xl hover:bg-primary-700 transition-all shadow-xl shadow-primary-200">Simpan Pilihan</button>
                         </div>
                     </div>
                 </form>
@@ -264,10 +229,9 @@
             const chatInput = document.getElementById('chat-input');
             const loadingBubble = document.getElementById('loading-bubble');
             const sendBtn = document.getElementById('send-btn');
-
-            // Scroll to bottom on load
+ 
             if(container) container.scrollTop = container.scrollHeight;
-
+ 
             if(chatForm) {
                 chatForm.addEventListener('submit', function(e) {
                     const message = chatInput.value.trim();
@@ -275,45 +239,37 @@
                         e.preventDefault();
                         return;
                     }
-
-                    // 1. Tampilkan Bubble User (Visual Langsung)
+ 
                     const userBubble = `
-                        <div class="flex justify-end w-full mb-6">
-                            <div class="flex items-end gap-2 max-w-[85%] md:max-w-[75%] flex-row-reverse">
-                                <div class="w-8 h-8 rounded-full bg-gray-300 flex-shrink-0 flex items-center justify-center text-gray-600 text-xs font-bold uppercase">
-                                    {{ substr(Auth::user()->full_name, 0, 1) }}
-                                </div>
-                                <div class="bg-primary-600 p-4 rounded-2xl rounded-br-none shadow-md text-white text-sm leading-relaxed">
+                        <div class="flex justify-end animate-in fade-in slide-in-from-right-4 duration-300 mb-8">
+                            <div class="flex gap-4 max-w-[85%] flex-row-reverse items-start">
+                                <div class="w-10 h-10 rounded-xl bg-gray-200 flex items-center justify-center text-gray-500 font-bold text-sm flex-shrink-0 uppercase">{{ substr(Auth::user()->full_name, 0, 1) }}</div>
+                                <div class="bg-primary-600 p-5 rounded-2xl rounded-tr-none shadow-xl shadow-primary-100 text-sm text-white leading-relaxed font-medium">
                                     <p class="whitespace-pre-wrap">${message}</p>
                                 </div>
                             </div>
                         </div>
                     `;
-
-                    // Insert before loading bubble
+ 
                     loadingBubble.insertAdjacentHTML('beforebegin', userBubble);
-
-                    // 2. Tampilkan Loading Bubble
                     loadingBubble.classList.remove('hidden');
-
-                    // 3. Scroll ke bawah
                     container.scrollTop = container.scrollHeight;
-
-                    // 4. Disable Input (Readonly) & Button - JANGAN KOSONGKAN VALUE
-                    // Menggunakan readonly agar nilai tetap terkirim saat submit
                     chatInput.readOnly = true;
                     sendBtn.disabled = true;
-
-                    // Form akan submit normal (refresh page) setelah ini
                 });
             }
         });
     </script>
 
     <style>
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
-        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #475569; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #f1f5f9; border-radius: 20px; }
+        .custom-scrollbar:hover::-webkit-scrollbar-thumb { background-color: #e2e8f0; }
+        
+        /* Typography Scale fixes */
+        .prose { font-size: 0.875rem; line-height: 1.625; color: #374151; }
+        .prose strong { color: #111827; font-weight: 700; }
+        .prose h1, .prose h2, .prose h3 { color: #111827; font-weight: 800; margin-top: 1.5em; margin-bottom: 0.5em; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.75rem; }
     </style>
 </x-app-layout>

@@ -1,27 +1,20 @@
 <x-app-layout>
     <div class="max-w-6xl mx-auto">
 
-        <!-- Header -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-            <div>
-                <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Repository Dokumen</h2>
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Kelola dan pantau status verifikasi dokumen lingkungan Anda.</p>
-            </div>
-            <div class="mt-4 md:mt-0 flex flex-wrap gap-2">
-                <!-- ESG Report Button -->
-                <a href="{{ route('user.esg.create') }}" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800 flex items-center gap-2 transition shadow-md">
-                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1v3m5-3v3m5-3v3M1 7h18M3 5h14a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/>
-                    </svg>
-                    Buat Laporan ESG
-                </a>
-                <!-- Refresh Button -->
-                <a href="{{ route('user.documents') }}" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center gap-2 transition shadow-md">
-                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 1v5h-5M2 19v-5h5m10-4a8 8 0 0 1-14.947 3.97M1 10a8 8 0 0 1 14.947-3.97"/></svg>
-                    Refresh Status
-                </a>
-            </div>
-        </div>
+    <x-page-header 
+        title="Repository Dokumen" 
+        subtitle="Kelola dan pantau status verifikasi dokumen lingkungan Anda.">
+        <x-slot:actions>
+            <a href="{{ route('user.esg.create') }}" class="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-xl text-xs font-bold hover:bg-primary-700 transition-all shadow-sm">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                Buat Laporan ESG
+            </a>
+            <a href="{{ route('user.documents') }}" class="inline-flex items-center px-4 py-2 bg-white text-gray-700 border border-gray-100 rounded-xl text-xs font-bold hover:bg-gray-50 transition-all shadow-sm">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.586m10.343 1.172a8.5 8.5 0 11.037-5.437m1.51-3.251L14.636 1c-.135-.11-.3-.21-.493-.277a.972.972 0 00-.733.023l-3.376 2.052"></path></svg>
+                Refresh
+            </a>
+        </x-slot:actions>
+    </x-page-header>
 
         <!-- Accordion Container -->
         <div id="accordion-documents" data-accordion="collapse" data-active-classes="bg-primary-50 dark:bg-gray-800 text-primary-600 dark:text-white">
@@ -40,84 +33,62 @@
 
                 <!-- Accordion Body -->
                 <div id="accordion-body-{{ $field->id }}" class="hidden" aria-labelledby="accordion-heading-{{ $field->id }}">
-                    <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                        <p class="mb-4 text-gray-500 dark:text-gray-400 text-sm">{{ $field->description }}</p>
+                    <div class="px-6 py-4 bg-white border-x border-gray-100">
+                        <p class="mb-6 text-xs text-gray-400 font-medium leading-relaxed">{{ $field->description }}</p>
 
-                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg mb-4">
-                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <div class="overflow-hidden rounded-2xl border border-gray-100 mb-6 shadow-sm">
+                            <table class="w-full text-sm text-left text-gray-500">
+                                <thead class="text-[10px] text-gray-400 uppercase tracking-widest bg-gray-50/50 border-b border-gray-100">
                                     <tr>
-                                        <th scope="col" class="px-6 py-3 w-1/3">Jenis Dokumen</th>
-                                        <th scope="col" class="px-6 py-3 text-center">Wajib?</th>
-                                        <th scope="col" class="px-6 py-3 text-center">Status & Info</th>
-                                        <th scope="col" class="px-6 py-3 text-center">Aksi</th>
+                                        <th class="px-6 py-4">Jenis Dokumen</th>
+                                        <th class="px-6 py-4 text-center">Status</th>
+                                        <th class="px-6 py-4 text-right">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="divide-y divide-gray-50">
                                     @foreach($field->subfields as $sub)
                                         @php $myDoc = $myDocuments[$sub->id] ?? null; @endphp
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-
-                                            <!-- 1. Jenis Dokumen -->
-                                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white align-top">
-                                                <div class="flex items-center gap-2">
-                                                    {{ $sub->name }}
-                                                    @if($sub->is_custom) <span class="bg-blue-100 text-blue-800 text-[10px] font-semibold px-2 py-0.5 rounded">Custom</span> @endif
+                                        <tr class="hover:bg-gray-50/50 transition-colors">
+                                            <td class="px-6 py-4">
+                                                <div class="flex items-center gap-2 mb-1">
+                                                    <span class="font-bold text-gray-900">{{ $sub->name }}</span>
+                                                    @if($sub->required)
+                                                        <span class="text-[10px] font-bold text-red-500 uppercase">Wajib</span>
+                                                    @endif
                                                 </div>
-                                                <div class="text-xs text-gray-500 font-normal mt-1">{{ $sub->description }}</div>
-                                                <div class="text-xs text-gray-400 mt-0.5">Max: {{ $sub->max_size_mb }} MB</div>
+                                                <div class="text-[10px] text-gray-400 font-medium max-w-sm">{{ $sub->description }}</div>
                                             </td>
 
-                                            <!-- 2. Wajib? -->
-                                            <td class="px-6 py-4 text-center align-top">
-                                                @if($sub->required)
-                                                    <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Wajib</span>
-                                                @else
-                                                    <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">Opsional</span>
-                                                @endif
-                                            </td>
-
-                                            <!-- 3. Status & Info & REJECTION REASON -->
-                                            <td class="px-6 py-4 align-top">
+                                            <td class="px-6 py-4 text-center">
                                                 @if($myDoc)
-                                                    <div class="flex flex-col items-center gap-2">
-                                                        <!-- Badge Status -->
+                                                    <div class="inline-flex flex-col items-center">
                                                         @if($myDoc->status == 'approved')
-                                                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded border border-green-400">Disetujui</span>
+                                                            <span class="bg-emerald-50 text-emerald-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase border border-emerald-100">Disetujui</span>
                                                         @elseif($myDoc->status == 'rejected')
-                                                            <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded border border-red-400 animate-pulse">Ditolak</span>
+                                                            <span class="bg-red-50 text-red-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase border border-red-100">Ditolak</span>
                                                         @else
-                                                            <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded border border-yellow-300">Menunggu Verifikasi</span>
+                                                            <span class="bg-orange-50 text-orange-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase border border-orange-100">Review</span>
                                                         @endif
-
-                                                        <!-- Nama File -->
-                                                        <span class="text-xs font-bold text-gray-700 dark:text-gray-300 break-all text-center" title="{{ $myDoc->original_filename }}">
-                                                            {{ Str::limit($myDoc->original_filename, 25) }}
+                                                        
+                                                        <span class="mt-2 text-[10px] font-bold text-gray-400 truncate max-w-[120px]" title="{{ $myDoc->original_filename }}">
+                                                            {{ Str::limit($myDoc->original_filename, 15) }}
                                                         </span>
-                                                        <span class="text-[10px] text-gray-400">{{ number_format($myDoc->size_bytes_original / 1024, 0) }} KB</span>
 
-                                                        <!-- ALASAN PENOLAKAN (PENTING) -->
                                                         @if($myDoc->status == 'rejected' && $myDoc->rejection_reason)
-                                                            <div class="mt-2 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded text-left w-full">
-                                                                <p class="text-xs font-bold text-red-600 dark:text-red-400 mb-1">Alasan Penolakan:</p>
-                                                                <p class="text-xs text-gray-700 dark:text-gray-300 italic">"{{ $myDoc->rejection_reason }}"</p>
-                                                            </div>
+                                                            <div class="mt-1 text-[9px] text-red-400 italic font-medium">"{{ Str::limit($myDoc->rejection_reason, 20) }}"</div>
                                                         @endif
                                                     </div>
                                                 @else
-                                                    <div class="text-center">
-                                                        <span class="bg-gray-100 text-gray-400 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-300">Belum Ada</span>
-                                                    </div>
+                                                    <span class="text-[10px] font-bold text-gray-300 uppercase italic">Kosong</span>
                                                 @endif
                                             </td>
 
-                                            <!-- 4. Aksi -->
-                                            <td class="px-6 py-4 text-center align-top">
+                                            <td class="px-6 py-4 text-right">
                                                 <button data-modal-target="uploadModal" data-modal-toggle="uploadModal"
                                                         data-subfield-id="{{ $sub->id }}"
                                                         data-subfield-name="{{ $sub->name }}"
-                                                        class="upload-btn font-medium text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 rounded-lg text-xs px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 shadow-sm transition-transform hover:-translate-y-0.5">
-                                                    {{ $myDoc ? ($myDoc->status == 'rejected' ? 'Perbaiki' : 'Ganti File') : 'Upload' }}
+                                                        class="upload-btn inline-flex items-center justify-center p-2 rounded-xl border border-gray-100 hover:bg-white hover:text-primary-600 hover:border-primary-100 transition-all active:scale-95 group">
+                                                    <svg class="w-5 h-5 text-gray-300 group-hover:text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
                                                 </button>
                                             </td>
                                         </tr>
@@ -126,13 +97,12 @@
                             </table>
                         </div>
 
-                        <!-- Tombol Tambah Dokumen Custom -->
                         <button data-modal-target="customUploadModal" data-modal-toggle="customUploadModal"
                                 data-field-id="{{ $field->id }}"
                                 data-field-name="{{ $field->name }}"
-                                class="custom-upload-btn flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-primary-600 dark:text-gray-400 dark:hover:text-white transition-colors border border-dashed border-gray-300 p-2 rounded-lg w-full justify-center hover:border-primary-500">
-                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 5.757v8.486M5.757 10h8.486M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-                            Tambah Dokumen Lainnya di {{ $field->name }}
+                                class="custom-upload-btn w-full py-4 border-2 border-dashed border-gray-100 rounded-2xl flex flex-col items-center justify-center text-gray-400 hover:border-primary-300 hover:text-primary-600 hover:bg-primary-50/30 transition-all group">
+                            <svg class="w-8 h-8 mb-2 opacity-20 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                            <span class="text-[10px] font-bold uppercase tracking-widest">Tambah Dokumen Lainnya</span>
                         </button>
 
                     </div>
